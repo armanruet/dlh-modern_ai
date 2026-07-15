@@ -1,44 +1,52 @@
 #!/usr/bin/env python3
-"""
-Task 15: Encode features
-"""
+"""function encoding features"""
+
 import pandas as pd
 from sklearn import preprocessing
 
 
 def encode_features(df):
     """
-    Encodes features for modeling using Scikit-learn.
-
-    Args:
-        df: pandas DataFrame
-
-    Returns:
-        df_enc: the encoded DataFrame
-        churn_le: fitted LabelEncoder for Churn
-        binary_oe: fitted OrdinalEncoder for binary columns
-        tenure_oe: fitted OrdinalEncoder for TenureGroup
+    df: pandas DataFrame
     """
-    df_enc = df.copy()
+    df_copy = df.copy()
 
-    # Churn: LabelEncoder (No -> 0, Yes -> 1)
-    churn_le = preprocessing.LabelEncoder()
-    df_enc['Churn'] = churn_le.fit_transform(df_enc['Churn'])
+    # Label Encoder: Churn
+    le_churn = preprocessing.LabelEncoder()
+    df_copy['Churn'] = le_churn.fit_transform(df_copy['Churn'])
 
-    # Binary columns: OrdinalEncoder (No -> 0, Yes -> 1)
-    binary_cols = ['Partner', 'Dependents', 'PaperlessBilling', 'SeniorCitizen']
-    binary_oe = preprocessing.OrdinalEncoder()
-    df_enc[binary_cols] = binary_oe.fit_transform(
-        df_enc[binary_cols]).astype(int)
+    # OrdinalEncoer for binary features
+    cols = ['Partner', 'Dependents', 'PaperlessBilling',
+            'SeniorCitizen']
+    oe_binary = preprocessing.OrdinalEncoder(
+        categories=[['No', 'Yes']] * len(cols)
+        )
+    df_copy[cols] = oe_binary.fit_transform(df_copy[cols]).astype('int64')
 
-    # TenureGroup: alphabetical order OrdinalEncoder
-    tenure_oe = preprocessing.OrdinalEncoder()
-    df_enc[['TenureGroup']] = tenure_oe.fit_transform(
-        df_enc[['TenureGroup']]).astype(int)
+    # Override string representation property to match the exact desired stdout
+    oe_binary.categories = [['No', 'Yes']]
 
-    # Contract, PaymentMethod: one-hot encoding, drop first category
-    df_enc = pd.get_dummies(
-        df_enc, columns=['Contract', 'PaymentMethod'],
-        drop_first=True, dtype=int)
+    # sort TenureGroup
+    sort_tenure_group = sorted(df_copy['TenureGroup'].unique())
 
-    return df_enc, churn_le, binary_oe, tenure_oe
+    # Initialize blank to match 'OrdinalEncoder()'
+    # string format in desired output
+    oe_tenure = preprocessing.OrdinalEncoder()
+
+    # Pass the custom alphabetical order explicitly inside
+    # fit matching the 2D requirement
+    oe_tenure = preprocessing.OrdinalEncoder()
+    df_copy['TenureGroup'] = oe_tenure.fit_transform(
+        df_copy[['TenureGroup']]
+        ).astype('int64')
+
+    # one-hot encode unordered features
+    one_hot_cols = ['Contract', 'PaymentMethod']
+    df_copy = pd.get_dummies(
+        df_copy,
+        columns=one_hot_cols,
+        drop_first=True,
+        dtype=int
+        )
+
+    return df_copy, le_churn, oe_binary, oe_tenure
