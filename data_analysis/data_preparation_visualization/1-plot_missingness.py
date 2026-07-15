@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-"""
+"""task 1"""
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 def plot_missingness(df):
-    """
-    """
+    """def the function"""
     plt.figure(figsize=(12, 8))
 
     x_vals = []
