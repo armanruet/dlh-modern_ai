@@ -26,8 +26,7 @@ def encode_features(df):
     df_enc['Churn'] = churn_le.fit_transform(df_enc['Churn'])
 
     # Binary columns: OrdinalEncoder (No -> 0, Yes -> 1)
-    binary_cols = ['Partner', 'Dependents',
-                   'PaperlessBilling', 'SeniorCitizen']
+    binary_cols = ['Partner', 'Dependents', 'PaperlessBilling', 'SeniorCitizen']
     binary_oe = preprocessing.OrdinalEncoder()
     df_enc[binary_cols] = binary_oe.fit_transform(
         df_enc[binary_cols]).astype(int)
