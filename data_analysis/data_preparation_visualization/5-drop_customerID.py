@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
-"""Task 5"""
+"""Function removing customerID"""
 
 
-def remove_duplicates(df):
-    """def the func"""
-    df = df.drop(columns=["customerID"])
-    return df
-
-
+def drop_customerID(df):
+    """function dropping ID"""
+    df_clean = df.drop(columns=['customerID'])
+    return df_clean
