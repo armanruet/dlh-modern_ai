@@ -4,7 +4,7 @@
 
 def remove_duplicates(df):
     """def the func"""
-    df = df.drop(["customerID"])
+    df = df.drop(columns=["customerID"])
     return df
 
 
