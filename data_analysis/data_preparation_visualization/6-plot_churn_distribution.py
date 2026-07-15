@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
-"""
-Task 6: Plot Target Distribution
-"""
+"""function for displaying churn distribution"""
+
 import matplotlib.pyplot as plt
 
 
 def plot_churn_distribution(df):
     """
-    Visualizes the churn class distribution as a bar plot.
-
-    Args:
-        df: pandas DataFrame with a Churn column
-
-    Returns:
-        None
+    function visualizing churn class distribution
     """
-    counts = df['Churn'].value_counts().reindex(['No', 'Yes'])
+    plt.figure(figsize=(12, 8))
 
-    plt.bar(counts.index, counts.values, color=['skyblue', 'salmon'])
+    # your code here
+
+    # step 1 aggregation
+    val = df['Churn'].value_counts().values  # list with values
+    values = df['Churn'].value_counts().index.tolist()  # list with Value Names
+
+    # define colors
+    colors = ['skyblue', 'salmon']
+
+    # Step 2 plotting
+    plt.bar(values, val, color=colors)
+
     plt.title('Churn Distribution')
     plt.ylabel('Count')
     plt.show()
