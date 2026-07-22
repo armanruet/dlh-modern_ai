@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+"""Write a function to create a decision tree
+classifier using Scikit-learn.
+    """
+from sklearn import tree
+
+
 def build_decision_tree(min_samples_leaf, min_samples_split, random_state):
     """ Create a Scikit-learn DecisionTreeClassifier with specified parameters.
 
