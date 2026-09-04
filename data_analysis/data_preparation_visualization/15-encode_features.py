@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""function encoding features"""
-
+""" Module for encoding categorical features for modeling. """
 import pandas as pd
 from sklearn import preprocessing
 
 
 def encode_features(df):
+    """     Encode categorical features for modeling.
     """
-    df: pandas DataFrame
-    """
-    df_copy = df.copy()
+    df_enc = df.copy()
+
     churn_le = preprocessing.LabelEncoder()
     df_enc['Churn'] = churn_le.fit_transform(df_enc['Churn'])
 
